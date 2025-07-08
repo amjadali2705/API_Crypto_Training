@@ -59,3 +59,29 @@ func DeleteAccount(c *fiber.Ctx) error {
 	}
 	return c.JSON(fiber.Map{"message": "Account deleted"})
 }
+
+func TransferAmount(c *fiber.Ctx) error {
+	var payload struct {
+		FromID int     `json:"from_id"`
+		ToID   int     `json:"to_id"`
+		Amount float64 `json:"amount"`
+	}
+	if err := c.BodyParser(&payload); err != nil {
+		return c.Status(400).JSON(fiber.Map{"error": err.Error()})
+	}
+
+	if err := service.Transfer(payload.FromID, payload.ToID, payload.Amount); err != nil {
+		return c.Status(400).JSON(fiber.Map{"error": err.Error()})
+	}
+
+	return c.JSON(fiber.Map{"message": "Transfer successful"})
+}
+
+func MiniStatement(c *fiber.Ctx) error {
+	id, _ := strconv.Atoi(c.Params("id"))
+	txns, err := service.Statement(id)
+	if err != nil {
+		return c.Status(500).JSON(fiber.Map{"error": err.Error()})
+	}
+	return c.JSON(txns)
+}
