@@ -62,8 +62,8 @@ func DeleteAccount(c *fiber.Ctx) error {
 
 func TransferAmount(c *fiber.Ctx) error {
 	var payload struct {
-		FromID int     `json:"from_id"`
-		ToID   int     `json:"to_id"`
+		FromID int     `json:"from_account"`
+		ToID   int     `json:"to_account"`
 		Amount float64 `json:"amount"`
 	}
 	if err := c.BodyParser(&payload); err != nil {

@@ -75,7 +75,7 @@ func TransferAmount(fromID, toID int, amount float64) error {
 		return err
 	}
 
-	_, err = tx.Exec("INSERT INTO transactions (from_account_id, to_account_id, amount) VALUES (?, ?, ?)", fromID, toID, amount)
+	_, err = tx.Exec("INSERT INTO transactions (from_account, to_account, amount) VALUES (?, ?, ?)", fromID, toID, amount)
 	if err != nil {
 		tx.Rollback()
 		return err
@@ -86,10 +86,10 @@ func TransferAmount(fromID, toID int, amount float64) error {
 
 func MiniStatement(accountID int) ([]model.Transaction, error) {
 	rows, err := config.DB.Query(`
-        SELECT id, from_account_id, to_account_id, amount, created_at
+        SELECT id, from_account, to_account, amount, createdAt
         FROM transactions
-        WHERE from_account_id = ? OR to_account_id = ?
-        ORDER BY created_at DESC LIMIT 5`, accountID, accountID)
+        WHERE from_account = ? OR to_account = ?
+        ORDER BY createdAt DESC LIMIT 5`, accountID, accountID)
 
 	if err != nil {
 		return nil, err
