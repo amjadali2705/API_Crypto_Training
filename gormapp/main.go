@@ -14,11 +14,11 @@ func main() {
 
 	config.ConnectDB()
 
-	config.DB.AutoMigrate(&model.User{}) //it ll create table in database automatically
+	//config.DB.AutoMigrate(&model.User{}) //it ll create table in database automatically
 
 	//config.DB.AutoMigrate(&model.User{}, &model.Profile{})
 
-	//config.DB.AutoMigrate(&model.User{}, &model.Profile{}, &model.Order{})
+	config.DB.AutoMigrate(&model.User{}, &model.Profile{}, &model.Order{})
 
 	router.SetupRoutes(app)
 
