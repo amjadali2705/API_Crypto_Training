@@ -19,13 +19,13 @@ import (
 
 func GetAllUsers() ([]model.User, error) {
 	var users []model.User
-	err := config.DB.Preload("Profile").Find(&users).Error
+	err := config.DB.Preload("Orders").Preload("Profile").Find(&users).Error
 	return users, err
 }
 
 func GetUserByID(id int) (model.User, error) {
 	var user model.User
-	err := config.DB.Preload("Profile").First(&user, id).Error
+	err := config.DB.Preload("Orders").Preload("Profile").First(&user, id).Error
 	return user, err
 }
 
