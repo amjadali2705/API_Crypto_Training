@@ -21,5 +21,10 @@ func main() {
 	app.Post("/user", handlers.CreateUser)
 	app.Get("/user/:id", handlers.GetUser)
 
-	app.Listen(":8080")
+	certFile := "./cert.pem"
+	keyFile := "./key.pem"
+
+	app.ListenTLS(":8080", certFile, keyFile) // with https
+
+	// app.Listen(":8080")
 }
